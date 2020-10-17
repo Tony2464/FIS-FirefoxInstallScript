@@ -1,4 +1,4 @@
-# installFirefoxScript
+# FirefoxInstallScript
 
 Script to install the latest version of Firefox for Debian-based distros
 
@@ -15,3 +15,7 @@ Make sure that the script has the right to be executed :
 
 Execute the script where it was copied with higher privileges :  
 `sudo ./FirefoxInstallScript.sh`
+
+## Others distros
+
+For others distros, in the script you can change the debian repo which is stored in the variable "**source**".
