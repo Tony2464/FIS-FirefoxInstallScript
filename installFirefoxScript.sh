@@ -30,11 +30,11 @@ function question()
 function install(){
     #Check the presence of the repo
     if grep -q "$source" $sourceFile; then
-        echo $installCommand
+        $installCommand
     else
         #Adding repo
         echo $source  >> $sourceFile
-        echo $installCommand
+        $installCommand
     fi
 }
 
