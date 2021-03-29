@@ -1,50 +1,52 @@
 #!/usr/bin/env bash
 
 #Script to install the latest version of Firefox for Debian-based distros
-#Anthony Fargette 2020
+#AnthonyF 2020
+#With the help of NicolasF
 
 sourceFile="/etc/apt/sources.list"
 source="deb http://ftp.us.debian.org/debian/ unstable main contrib non-free"
 bye="Bye bye \( ^ -^)/"
 
 #Commands
-function installCommand()
-{
+function installCommand() {
     apt update && apt install firefox -y
 }
 
-function removeCommand()
-{
+function removeCommand() {
     apt autoremove firefox-esr -y
 }
 
 #Asking with y/n answer
-function question()
-{
+function question() {
     while read -r -p "${1}" answer; do
         case "$answer" in
-            [yY][eE][sS]|[yY]) 
-                return 0 #yes
-                ;;
-            [nN][oO]|[nN])
-                return 1 #no
-                ;;
-            *)
-                echo 'Type "Yes" or "No"'
+        [yY][eE][sS] | [yY])
+            return 0 #yes
+            ;;
+        [nN][oO] | [nN])
+            return 1 #no
+            ;;
+        *)
+            echo 'Type "Yes" or "No"'
+            ;;
         esac
     done
 }
 
 #Installing Firefox
-function install(){
+function install() {
     #Check the presence of the repo
-    if grep -q "$source" $sourceFile; then
-        installCommand
-    else
-        #Adding repo
-        echo $source  >> $sourceFile
-        installCommand
+    if ! grep -q "$source" $sourceFile; then
+        #Install the repo
+        echo $source >>$sourceFile
     fi
+
+    #Install Firefox (the real one my man !)
+    installCommand
+    #Delete the repo
+    head -n -1 $sourceFile >${sourceFile}.back
+    mv ${sourceFile}.back $sourceFile
 }
 
 #Script
